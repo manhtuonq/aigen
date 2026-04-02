@@ -1028,7 +1028,7 @@ Respond ONLY with a valid JSON array of exactly ${frameCount} objects:
 [{"frame":1,"prompt":"...","neg":"..."}]
 No markdown, no explanation, raw JSON only.`;
 
-  const response = await fetch('/api/claude', {
+fetch('/api/claude', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
