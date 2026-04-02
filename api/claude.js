@@ -1,17 +1,33 @@
 export default async function handler(req, res) {
+
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({
+      error: 'Method not allowed'
+    });
   }
 
   try {
-    const { userDescription, frameCount, style, motionType } = req.body;
+
+    const {
+      userDescription,
+      frameCount,
+      style,
+      motionType
+    } = req.body;
 
     const prompt = `
-Create ${frameCount} animation frames for:
-"${userDescription}"
-Style: ${style}
-Motion: ${motionType}
-Return JSON array.
+Create ${frameCount} animation frames.
+
+Description:
+${userDescription}
+
+Style:
+${style}
+
+Motion:
+${motionType}
+
+Return JSON array only.
 `;
 
     const response = await fetch(
@@ -42,9 +58,12 @@ Return JSON array.
 
   } catch (error) {
 
+    console.error(error);
+
     res.status(500).json({
       error: error.message
     });
 
   }
+
 }
