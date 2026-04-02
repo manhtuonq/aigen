@@ -1010,52 +1010,18 @@ function translateViToEn(text) {
 // FIX 3: Call Claude via API with proper key header
 // Returns array of frame prompt objects
 // -------------------------------------------------------
-async function generatePromptsWithClaude(userDescription, frameCount, style, motionType) {
-  if (!claudeApiKey) throw new Error('No API key');
-
-  const systemPrompt = `You are an expert AI image prompt engineer. Create ${frameCount} detailed sequential image generation prompts for a smooth animation sequence.
-
-Rules:
-- Each prompt must be in English, optimized for Stable Diffusion / SDXL / Flux
-- Each prompt describes ONE frame in a continuous motion sequence
-- Keep character, background, and lighting consistent across all frames
-- Only the ACTION/POSE changes between frames
-- Include style: "${style}", motion: "${motionType}"
-- Add quality boosters: masterpiece, best quality, highly detailed, sharp focus, 8k
-- Add "---NEG---" then negative prompt after each positive prompt
-
-Respond ONLY with a valid JSON array of exactly ${frameCount} objects:
-[{"frame":1,"prompt":"...","neg":"..."}]
-No markdown, no explanation, raw JSON only.`;
-
-fetch('/api/claude', {
+const response = await fetch('/api/claude', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    model: 'claude-3-haiku-20240307',
-    max_tokens: 500,
-    messages: [
-      {
-        role: 'user',
-        content: prompt
-      }
-    ]
+    userDescription,
+    frameCount,
+    style,
+    motionType
   })
 });
-
-  if (!response.ok) {
-    const err = await response.json().catch(() => ({}));
-    throw new Error('Claude API: ' + (err.error?.message || `HTTP ${response.status}`));
-  }
-
-  const data = await response.json();
-  const text = data.content[0].text.trim();
-  const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
-}
-
 // -------------------------------------------------------
 // FIX 4: Pollinations.ai with sanitized ASCII-only prompts
 // and retry logic for 502 errors
