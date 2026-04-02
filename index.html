@@ -1042,7 +1042,7 @@ async function generateImagePollinations(
   const width = 768;
   const height = 512;
 
-  const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true&negative=${encodedNeg}&model=flux&enhance=true`;
+  const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true&negative=${encodedNeg}&model=turbo&enhance=true`;
 
   for (let attempt = 0; attempt < retries; attempt++) {
 
@@ -1211,7 +1211,7 @@ async function generateFrames() {
 
     // Small delay between requests to be polite to Pollinations
     if (i < claudeFrames.length - 1) {
-      await new Promise(r => setTimeout(r, 2000));    }
+      await new Promise(r => setTimeout(r, 3000));    }
   }
 
   setAiProgress(100, 'Hoàn tất!');
