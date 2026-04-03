@@ -574,8 +574,8 @@
               <select id="ai-frame-count">
                 <option value="4">4 khung</option>
                 <option value="6">6 khung</option>
-                <option value="8" selected>8 khung</option>
-              </select>
+                <option value="4" selected>4 khung</option>
+                            </select>
             </div>
             <div class="ai-opt-group">
               <label>Tỉ lệ ảnh</label>
@@ -1165,7 +1165,8 @@ async function generateFrames() {
   let successCount = 0;
   for (let i = 0; i < claudeFrames.length; i++) {
     setAiProgress(15 + Math.round((i / claudeFrames.length) * 80), `Đang tạo khung hình ${i + 1}/${claudeFrames.length}...`);
-
+  // Delay trước MỌI request, kể cả frame đầu tiên
+  if (i > 0) await new Promise(r => setTimeout(r, 15000));
     try {
       const frameData = claudeFrames[i];
       const objectUrl = await generateImagePollinations(frameData.prompt, frameData.neg, ratio, i);
@@ -1185,8 +1186,7 @@ async function generateFrames() {
 
  // Small delay between requests to be polite to Pollinations
  if (i < claudeFrames.length - 1) {
-      await new Promise(r => setTimeout(r, 7000));
-    }
+  await new Promise(r => setTimeout(r, 15000));    }
   } // ← đóng vòng for
 
   setAiProgress(100, 'Hoàn tất!');
