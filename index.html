@@ -574,8 +574,8 @@
               <select id="ai-frame-count">
                 <option value="4">4 khung</option>
                 <option value="6">6 khung</option>
-                <option value="4" selected>4 khung</option>
-                            </select>
+                <option value="8" selected>8 khung</option>
+              </select>
             </div>
             <div class="ai-opt-group">
               <label>Tỉ lệ ảnh</label>
@@ -1020,69 +1020,68 @@ function translateViToEn(text) {
 }
 
 // -------------------------------------------------------
-// FIX 4: Pollinations.ai with sanitized ASCII-only prompts
-// and retry logic for 502 errors
+// Stable Horde — miễn phí, không rate limit, không cần key
 // -------------------------------------------------------
-async function generateImagePollinations(prompt, negPrompt, ratio, frameIndex, retries = 3) {
-  // Dùng Stable Horde — miễn phí, không cần key, không rate limit
-  const apiUrl = 'https://stablehorde.net/api/v2/generate/async';
+async function generateImagePollinations(prompt, negPrompt, ratio, frameIndex) {
+  const HORDE_URL = 'https://stablehorde.net/api/v2/generate/async';
 
-  const body = {
-    prompt: prompt,
-    params: {
-      width: 512,
-      height: 512,
-      steps: 20,
-      n: 1,
-      sampler_name: 'k_euler',
+  // Gửi job
+  const submitRes = await fetch(HORDE_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': '0000000000',
+      'Client-Agent': 'ChuyenFile:1.0:anonymous'
     },
-    nsfw: false,
-    censor_nsfw: true,
-    models: ['stable_diffusion'],
-    r2: true,
-  };
-
-  try {
-    // Gửi request tạo ảnh
-    const submitRes = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': '0000000000', // anonymous key
+    body: JSON.stringify({
+      prompt: prompt + (negPrompt ? ` ### ${negPrompt}` : ''),
+      params: {
+        width: 512,
+        height: 512,
+        steps: 20,
+        n: 1,
+        sampler_name: 'k_euler_a',
+        cfg_scale: 7,
       },
-      body: JSON.stringify(body),
-    });
+      nsfw: false,
+      censor_nsfw: true,
+      models: ['stable_diffusion'],
+      r2: true,
+      shared: false,
+    })
+  });
 
-    if (!submitRes.ok) throw new Error(`Submit HTTP ${submitRes.status}`);
-    const submitData = await submitRes.json();
-    const jobId = submitData.id;
-
-    // Poll kết quả mỗi 5 giây
-    for (let poll = 0; poll < 30; poll++) {
-      await new Promise(r => setTimeout(r, 5000));
-
-      const checkRes = await fetch(`https://stablehorde.net/api/v2/generate/check/${jobId}`);
-      const checkData = await checkRes.json();
-
-      if (checkData.done) {
-        // Lấy URL ảnh
-        const statusRes = await fetch(`https://stablehorde.net/api/v2/generate/status/${jobId}`);
-        const statusData = await statusRes.json();
-        const imgUrl = statusData.generations?.[0]?.img;
-        if (!imgUrl) throw new Error('Không lấy được URL ảnh');
-        return imgUrl;
-      }
-
-      // Cập nhật tiến trình
-      const waitTime = checkData.wait_time || '?';
-      console.log(`Frame ${frameIndex + 1}: chờ ~${waitTime}s nữa...`);
-    }
-
-    throw new Error('Timeout sau 150 giây');
-
-  } catch (err) {
-    throw new Error(`Stable Horde: ${err.message}`);
+  if (!submitRes.ok) {
+    const errText = await submitRes.text();
+    throw new Error(`Stable Horde submit thất bại (${submitRes.status}): ${errText}`);
   }
+
+  const { id: jobId } = await submitRes.json();
+  if (!jobId) throw new Error('Không nhận được job ID từ Stable Horde');
+
+  console.log(`Frame ${frameIndex + 1}: job ID = ${jobId}, đang chờ...`);
+
+  // Poll kết quả mỗi 6 giây, tối đa 3 phút
+  for (let poll = 0; poll < 30; poll++) {
+    await new Promise(r => setTimeout(r, 6000));
+
+    const checkRes = await fetch(`https://stablehorde.net/api/v2/generate/check/${jobId}`);
+    if (!checkRes.ok) continue;
+    const check = await checkRes.json();
+
+    console.log(`Frame ${frameIndex + 1}: done=${check.done}, wait=${check.wait_time}s, queue=${check.queue_position}`);
+
+    if (check.done) {
+      const statusRes = await fetch(`https://stablehorde.net/api/v2/generate/status/${jobId}`);
+      if (!statusRes.ok) throw new Error(`Lỗi lấy kết quả (${statusRes.status})`);
+      const status = await statusRes.json();
+      const imgUrl = status.generations?.[0]?.img;
+      if (!imgUrl) throw new Error('Stable Horde không trả về URL ảnh');
+      return imgUrl;
+    }
+  }
+
+  throw new Error('Stable Horde timeout sau 3 phút');
 }
 // -------------------------------------------------------
 // FIX 5: Fallback prompt builder with English translation
@@ -1183,8 +1182,7 @@ async function generateFrames() {
   let successCount = 0;
   for (let i = 0; i < claudeFrames.length; i++) {
     setAiProgress(15 + Math.round((i / claudeFrames.length) * 80), `Đang tạo khung hình ${i + 1}/${claudeFrames.length}...`);
-  // Delay trước MỌI request, kể cả frame đầu tiên
-  if (i > 0) await new Promise(r => setTimeout(r, 15000));
+
     try {
       const frameData = claudeFrames[i];
       const objectUrl = await generateImagePollinations(frameData.prompt, frameData.neg, ratio, i);
@@ -1202,9 +1200,10 @@ async function generateFrames() {
       cell.innerHTML = `<span style="color:#e53e3e;font-size:0.65rem;padding:8px;text-align:center;">❌ Lỗi tạo ảnh<br/><small>${err.message}</small></span>`;
     }
 
- // Small delay between requests to be polite to Pollinations
+ // Stable Horde tự quản lý queue, không cần delay thêm
  if (i < claudeFrames.length - 1) {
-  await new Promise(r => setTimeout(r, 15000));    }
+      await new Promise(r => setTimeout(r, 1000));
+    }
   } // ← đóng vòng for
 
   setAiProgress(100, 'Hoàn tất!');
