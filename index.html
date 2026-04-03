@@ -958,7 +958,20 @@ async function convertWord() {
 // ===================== AI IMAGE & VIDEO =====================
 let generatedFrames = [];
 let generatedPrompts = [];
-
+// Hàm gọi server để lấy prompt từ Claude
+async function generatePromptsWithClaude(userDescription, frameCount, style, motionType) {
+  const res = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userDescription, frameCount, style, motionType })
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.error || 'API lỗi');
+  }
+  const data = await res.json();
+  return data.frames;
+}
 // -------------------------------------------------------
 // FIX 1: Sanitize prompt — remove diacritics / Unicode marks
 // so Pollinations.ai URL doesn't break with Vietnamese text
