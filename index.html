@@ -1023,47 +1023,65 @@ function translateViToEn(text) {
 // FIX 4: Pollinations.ai with sanitized ASCII-only prompts
 // and retry logic for 502 errors
 // -------------------------------------------------------
-async function generateImagePollinations(prompt, negPrompt, ratio, frameIndex, retries = 5) {
-  const encodedPrompt = encodeURIComponent(prompt);
-  const encodedNeg = encodeURIComponent(negPrompt || "");
-  const seed = 100 + frameIndex * 31;
-  const width = 768;
-  const height = 512;
-  const url = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true&negative=${encodedNeg}&model=turbo&enhance=true`;
+async function generateImagePollinations(prompt, negPrompt, ratio, frameIndex, retries = 3) {
+  // Dùng Stable Horde — miễn phí, không cần key, không rate limit
+  const apiUrl = 'https://stablehorde.net/api/v2/generate/async';
 
-  for (let attempt = 0; attempt < retries; attempt++) {
-    try {
-      // ← THÊM TIMEOUT 30 GIÂY để tránh AbortError
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 30000);
+  const body = {
+    prompt: prompt,
+    params: {
+      width: 512,
+      height: 512,
+      steps: 20,
+      n: 1,
+      sampler_name: 'k_euler',
+    },
+    nsfw: false,
+    censor_nsfw: true,
+    models: ['stable_diffusion'],
+    r2: true,
+  };
 
-      const resp = await fetch(url, { signal: controller.signal });
-      clearTimeout(timeoutId); // ← Hủy timeout nếu thành công
+  try {
+    // Gửi request tạo ảnh
+    const submitRes = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': '0000000000', // anonymous key
+      },
+      body: JSON.stringify(body),
+    });
 
-      if (!resp.ok) {
-        if ((resp.status === 502 || resp.status === 503 || resp.status === 429)
-            && attempt < retries - 1) {
-          // ← Thêm 429 vào danh sách retry, tăng thời gian chờ
-          const waitTime = 8000 * Math.pow(2, attempt); // 8s, 16s, 32s...
-          console.warn(`Retry ${attempt + 1} sau ${waitTime}ms (HTTP ${resp.status})`);
-          await new Promise(r => setTimeout(r, waitTime));
-          continue;
-        }
-        throw new Error(`Pollinations HTTP ${resp.status}`);
+    if (!submitRes.ok) throw new Error(`Submit HTTP ${submitRes.status}`);
+    const submitData = await submitRes.json();
+    const jobId = submitData.id;
+
+    // Poll kết quả mỗi 5 giây
+    for (let poll = 0; poll < 30; poll++) {
+      await new Promise(r => setTimeout(r, 5000));
+
+      const checkRes = await fetch(`https://stablehorde.net/api/v2/generate/check/${jobId}`);
+      const checkData = await checkRes.json();
+
+      if (checkData.done) {
+        // Lấy URL ảnh
+        const statusRes = await fetch(`https://stablehorde.net/api/v2/generate/status/${jobId}`);
+        const statusData = await statusRes.json();
+        const imgUrl = statusData.generations?.[0]?.img;
+        if (!imgUrl) throw new Error('Không lấy được URL ảnh');
+        return imgUrl;
       }
 
-      return url;
-
-    } catch (err) {
-      // Nếu là AbortError (timeout) thì log rõ hơn
-      if (err.name === 'AbortError') {
-        console.warn(`Frame ${frameIndex + 1} timeout lần ${attempt + 1}`);
-      }
-      if (attempt === retries - 1) {
-        throw err;
-      }
-      await new Promise(r => setTimeout(r, 5000)); // chờ 5s rồi retry
+      // Cập nhật tiến trình
+      const waitTime = checkData.wait_time || '?';
+      console.log(`Frame ${frameIndex + 1}: chờ ~${waitTime}s nữa...`);
     }
+
+    throw new Error('Timeout sau 150 giây');
+
+  } catch (err) {
+    throw new Error(`Stable Horde: ${err.message}`);
   }
 }
 // -------------------------------------------------------
