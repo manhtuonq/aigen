@@ -352,6 +352,254 @@
       header .tagline { display: none; }
       .ai-images-grid { grid-template-columns: repeat(2, 1fr); }
     }
+
+    /* ==================== COMING SOON MODAL ==================== */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(10,36,99,0.55); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: white; border-radius: 20px; padding: 48px 40px;
+      max-width: 420px; width: 90%; text-align: center;
+      box-shadow: 0 20px 60px rgba(10,36,99,0.3);
+      animation: popIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes popIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
+    .modal-box .cs-rocket { font-size: 3.5rem; margin-bottom: 16px; animation: float 2.5s ease-in-out infinite; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .modal-box h2 { font-size: 1.4rem; font-weight: 800; color: var(--blue-dark); margin-bottom: 10px; }
+    .modal-box p { font-size: 0.88rem; color: var(--gray-text); line-height: 1.7; margin-bottom: 24px; }
+    .cs-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--ai-gradient); color: white; padding: 5px 14px; border-radius: 99px; font-size: 0.75rem; font-weight: 700; margin-bottom: 20px; letter-spacing: 0.5px; }
+    .btn-close-modal { padding: 11px 28px; background: var(--blue-main); color: white; border: none; border-radius: 9px; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: background 0.18s; }
+    .btn-close-modal:hover { background: var(--blue-dark); }
+
+    /* ==================== HEADER AUTH ==================== */
+    .header-auth { display: flex; align-items: center; gap: 10px; }
+    .btn-header-auth { display: flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.18s; border: none; }
+    .btn-login-h { background: rgba(255,255,255,0.12); color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+    .btn-login-h:hover { background: rgba(255,255,255,0.22); }
+    .btn-register-h { background: var(--blue-light); color: white; }
+    .btn-register-h:hover { background: #1976d2; }
+    .user-chip { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.12); border: 1.5px solid rgba(255,255,255,0.25); border-radius: 8px; padding: 6px 14px; color: white; font-size: 0.8rem; font-weight: 700; }
+    .user-chip .avatar { width: 26px; height: 26px; background: var(--blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; }
+    .btn-logout { background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 0.85rem; padding: 4px; transition: color 0.15s; }
+    .btn-logout:hover { color: white; }
+
+    /* ==================== AUTH PAGES ==================== */
+    .auth-page-wrap {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 20px;
+      background: var(--blue-dark);
+      background-image:
+        radial-gradient(ellipse at 20% 50%, rgba(21,101,192,0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(108,63,197,0.3) 0%, transparent 45%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2364b5f6' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .auth-card {
+      background: white; border-radius: 20px; padding: 40px 36px; width: 100%; max-width: 420px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+    }
+    .auth-logo { display: flex; align-items: center; gap: 10px; justify-content: center; margin-bottom: 28px; text-decoration: none; }
+    .auth-logo .logo-icon { height: 38px; width: 38px; border-radius: 8px; background: var(--blue-main); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: white; }
+    .auth-logo .brand { font-size: 1.25rem; font-weight: 800; color: var(--blue-dark); }
+    .auth-logo .brand span { color: var(--blue-light); }
+    .auth-title { font-size: 1.3rem; font-weight: 800; color: var(--blue-dark); text-align: center; margin-bottom: 6px; }
+    .auth-sub { font-size: 0.82rem; color: var(--gray-text); text-align: center; margin-bottom: 28px; }
+    .auth-field { margin-bottom: 16px; }
+    .auth-field label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--blue-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .auth-field input { width: 100%; border: 1.5px solid var(--blue-border); border-radius: 9px; padding: 11px 14px; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 500; color: var(--blue-dark); outline: none; transition: border-color 0.15s; }
+    .auth-field input:focus { border-color: var(--blue-main); box-shadow: 0 0 0 3px rgba(21,101,192,0.08); }
+    .btn-auth-submit { width: 100%; padding: 13px; background: var(--blue-main); color: white; border: none; border-radius: 9px; font-family: 'Montserrat', sans-serif; font-size: 0.92rem; font-weight: 700; cursor: pointer; transition: background 0.18s, transform 0.12s; margin-top: 6px; }
+    .btn-auth-submit:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .auth-switch { text-align: center; margin-top: 20px; font-size: 0.82rem; color: var(--gray-text); font-weight: 500; }
+    .auth-switch a { color: var(--blue-main); font-weight: 700; cursor: pointer; text-decoration: none; }
+    .auth-switch a:hover { text-decoration: underline; }
+    .auth-alert { padding: 10px 14px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; margin-bottom: 14px; display: none; }
+    .auth-alert.show { display: block; }
+    .auth-alert.error { background: #ffebee; color: #b71c1c; border: 1.5px solid #ef9a9a; }
+    .auth-alert.success { background: #e8f5e9; color: #1b5e20; border: 1.5px solid #a5d6a7; }
+    .auth-back { display: flex; align-items: center; gap: 6px; color: rgba(255,255,255,0.7); font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-bottom: 20px; width: fit-content; border: none; background: none; transition: color 0.15s; }
+    .auth-back:hover { color: white; }
+    .auth-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+    .auth-divider span { font-size: 0.72rem; color: #aaa; font-weight: 600; white-space: nowrap; }
+    .auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background: var(--blue-border); }
+
+    /* ==================== BILL PAGE ==================== */
+    .bill-industry-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 28px; }
+    @media(max-width:600px){ .bill-industry-grid{ grid-template-columns: repeat(2,1fr); } }
+    .industry-btn {
+      border: 2px solid var(--blue-border); border-radius: 12px; padding: 16px 12px; cursor: pointer;
+      text-align: center; background: white; transition: all 0.18s; font-family: 'Montserrat', sans-serif;
+    }
+    .industry-btn:hover { border-color: var(--blue-main); background: var(--blue-pale); }
+    .industry-btn.active { border-color: var(--blue-main); background: var(--blue-pale); box-shadow: 0 0 0 3px rgba(21,101,192,0.12); }
+    .industry-btn .ind-icon { font-size: 1.8rem; margin-bottom: 6px; }
+    .industry-btn .ind-name { font-size: 0.78rem; font-weight: 700; color: var(--blue-dark); }
+    .bill-form-section { background: white; border: 1.5px solid var(--blue-border); border-radius: 14px; padding: 28px; margin-bottom: 20px; }
+    .bill-form-section h4 { font-size: 0.85rem; font-weight: 700; color: var(--blue-dark); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .bill-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    @media(max-width:580px){ .bill-field-row{ grid-template-columns:1fr; } }
+    .bill-field { display: flex; flex-direction: column; gap: 5px; }
+    .bill-field label { font-size: 0.73rem; font-weight: 700; color: var(--blue-dark); text-transform: uppercase; letter-spacing: 0.4px; }
+    .bill-field input, .bill-field select, .bill-field textarea { border: 1.5px solid var(--blue-border); border-radius: 8px; padding: 9px 12px; font-family: 'Montserrat', sans-serif; font-size: 0.84rem; color: var(--blue-dark); outline: none; transition: border-color 0.15s; width: 100%; }
+    .bill-field input:focus, .bill-field select:focus, .bill-field textarea:focus { border-color: var(--blue-main); }
+    .bill-field input[type="file"] { padding: 6px 10px; cursor: pointer; }
+    .custom-fields-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .custom-field-item { display: flex; gap: 10px; align-items: center; }
+    .custom-field-item input { flex:1; border: 1.5px solid var(--blue-border); border-radius: 8px; padding: 8px 12px; font-family:'Montserrat',sans-serif; font-size:0.83rem; color:var(--blue-dark); outline:none; }
+    .custom-field-item input:focus { border-color: var(--blue-main); }
+    .btn-remove-field { background: none; border: none; color: #e53e3e; cursor: pointer; font-size: 1rem; padding: 4px; border-radius: 4px; }
+    .btn-remove-field:hover { background: #fee2e2; }
+    .btn-add-field { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 2px dashed var(--blue-border); border-radius: 8px; background: none; font-family:'Montserrat',sans-serif; font-size:0.8rem; font-weight:700; color:var(--blue-main); cursor:pointer; transition:all 0.15s; }
+    .btn-add-field:hover { border-color: var(--blue-main); background: var(--blue-pale); }
+    .bill-deposit-upload { border: 2px dashed var(--blue-border); border-radius: 10px; padding: 20px; text-align: center; background: var(--blue-pale); cursor: pointer; transition: all 0.18s; position:relative; overflow:hidden; }
+    .bill-deposit-upload:hover { border-color: var(--blue-main); }
+    .bill-deposit-upload input { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+    .bill-deposit-upload .dep-icon { font-size: 1.8rem; color: var(--blue-main); margin-bottom: 6px; }
+    .bill-deposit-upload .dep-text { font-size: 0.8rem; font-weight: 600; color: var(--blue-dark); }
+    .dep-preview { max-width: 100%; max-height: 140px; border-radius: 8px; margin-top: 10px; display:none; object-fit:contain; }
+    .btn-submit-bill { display: inline-flex; align-items: center; gap: 10px; padding: 14px 34px; background: var(--blue-main); color: white; border: none; border-radius: 10px; font-family:'Montserrat',sans-serif; font-size:0.95rem; font-weight:700; cursor:pointer; box-shadow: 0 4px 16px rgba(21,101,192,0.3); transition: all 0.18s; }
+    .btn-submit-bill:hover { background: var(--blue-dark); transform: translateY(-1px); }
+
+    /* ==================== BILL VIEW PAGE ==================== */
+    .bill-view-wrap { max-width: 560px; margin: 0 auto; background: white; border-radius: 16px; border: 1.5px solid var(--blue-border); overflow: hidden; box-shadow: var(--shadow); }
+    .bill-view-header { background: var(--blue-dark); color: white; padding: 24px 28px; }
+    .bill-view-header .bv-brand { font-size: 1.1rem; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 4px; }
+    .bill-view-header .bv-id { font-size: 0.72rem; opacity: 0.65; font-weight: 500; }
+    .bill-view-header .bv-date { font-size: 0.78rem; opacity: 0.8; font-weight: 600; margin-top: 6px; }
+    .bill-view-body { padding: 24px 28px; }
+    .bill-view-industry { display: inline-flex; align-items: center; gap: 6px; background: var(--blue-pale); color: var(--blue-dark); padding: 5px 12px; border-radius: 99px; font-size: 0.75rem; font-weight: 700; margin-bottom: 20px; border: 1px solid var(--blue-border); }
+    .bill-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f0f4ff; font-size: 0.84rem; gap: 16px; }
+    .bill-row:last-child { border-bottom: none; }
+    .bill-row .brow-label { font-weight: 700; color: var(--gray-text); min-width: 140px; }
+    .bill-row .brow-val { font-weight: 600; color: var(--blue-dark); text-align: right; word-break: break-word; }
+    .bill-deposit-img { width: 100%; border-radius: 10px; margin-top: 14px; border: 1.5px solid var(--blue-border); max-height: 200px; object-fit: contain; display:none; }
+    .bill-view-footer { background: var(--gray-light); padding: 16px 28px; font-size: 0.75rem; color: var(--gray-text); font-weight: 500; text-align: center; border-top: 1px solid var(--blue-border); }
+    .btn-print-bill { display: inline-flex; align-items:center; gap:8px; padding:10px 22px; background: white; border: 1.5px solid var(--blue-border); border-radius:8px; font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--blue-dark); cursor:pointer; transition:all 0.15s; margin-top:16px; }
+    .btn-print-bill:hover { border-color: var(--blue-main); color: var(--blue-main); }
+    .bill-link-box { background: var(--blue-pale); border: 1.5px solid var(--blue-border); border-radius: 10px; padding: 14px 16px; margin-top: 20px; }
+    .bill-link-box .bl-label { font-size: 0.72rem; font-weight: 700; color: var(--blue-dark); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .bill-link-row { display: flex; gap: 8px; align-items: center; }
+    .bill-link-input { flex:1; border: 1.5px solid var(--blue-border); border-radius: 7px; padding: 7px 10px; font-family:'Montserrat',sans-serif; font-size:0.75rem; color:var(--blue-dark); background:white; outline:none; }
+    .btn-copy-link { padding: 7px 14px; background: var(--blue-main); color:white; border:none; border-radius:7px; font-family:'Montserrat',sans-serif; font-size:0.75rem; font-weight:700; cursor:pointer; white-space:nowrap; transition:background 0.15s; }
+    .btn-copy-link:hover { background: var(--blue-dark); }
+
+    /* Bill history */
+    .bill-history-item { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; border:1.5px solid var(--blue-border); border-radius:10px; background:white; margin-bottom:10px; cursor:pointer; transition:all 0.15s; }
+    .bill-history-item:hover { border-color:var(--blue-main); background:var(--blue-pale); }
+    .bhi-info { flex:1; min-width:0; }
+    .bhi-name { font-size:0.85rem; font-weight:700; color:var(--blue-dark); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .bhi-meta { font-size:0.72rem; color:var(--gray-text); font-weight:500; margin-top:2px; }
+    .bhi-arrow { color:var(--blue-light); }
+
+    /* ==================== BILL LINK VIEW (no nav) ==================== */
+    body.bill-link-mode header,
+    body.bill-link-mode nav,
+    body.bill-link-mode footer { display: none !important; }
+    body.bill-link-mode .body-container { display: block; }
+    body.bill-link-mode main { padding: 0; }
+    body.bill-link-mode #page-billview { padding: 0; }
+    body.bill-link-mode .page { display: none; }
+    body.bill-link-mode #page-billview { display: block !important; }
+
+    /* Marquee banner */
+    .bill-marquee-wrap {
+      background: linear-gradient(90deg, #0a2463 0%, #1565c0 50%, #0a2463 100%);
+      overflow: hidden;
+      padding: 10px 0;
+      border-bottom: 2px solid #1e88e5;
+    }
+    .bill-marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee-scroll 18s linear infinite;
+    }
+    .bill-marquee-text {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+      padding: 0 60px;
+    }
+    .bill-marquee-text .mq-star { color: #ffd700; margin: 0 6px; }
+    @keyframes marquee-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Bill link page wrapper */
+    .bill-link-page-wrap {
+      min-height: 100vh;
+      background: var(--gray-light);
+      padding: 0 0 100px;
+    }
+    .bill-link-inner {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 24px 16px 24px;
+    }
+
+    /* Floating contact buttons (mobile, bill link mode only) */
+    .bill-float-contacts {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 999;
+      gap: 14px;
+      background: rgba(10,36,99,0.92);
+      border-radius: 99px;
+      padding: 10px 24px;
+      box-shadow: 0 6px 28px rgba(10,36,99,0.35);
+      backdrop-filter: blur(8px);
+    }
+    body.bill-link-mode .bill-float-contacts { display: flex; }
+    .bfc-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      transition: transform 0.15s;
+    }
+    .bfc-btn:hover { transform: translateY(-2px); }
+    .bfc-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+    .bfc-tiktok .bfc-icon { background: #010101; border: 2px solid #fff; }
+    .bfc-zalo   .bfc-icon { background: #0068ff; }
+    .bfc-gmap   .bfc-icon { background: #EA4335; }
+    /* TikTok SVG icon workaround */
+    .tiktok-logo { width: 22px; height: 22px; fill: white; }
+
+    /* Bill link page wrapper - normal mode */
+    #page-billview .bill-link-inner { padding: 0; }
+    body.bill-link-mode #page-billview .bill-link-inner { padding: 16px 16px 0; }
+    body:not(.bill-link-mode) #bill-nav-btns { padding: 0 0 0 0; }
+
+    .bill-map-field { margin-top: 10px; }
+    .bill-map-field label { font-size:0.75rem; font-weight:700; color:var(--blue-dark); display:block; margin-bottom:4px; }
+    .bill-map-field input { width:100%; border:1.5px solid var(--blue-border); border-radius:8px; padding:9px 12px; font-family:'Montserrat',sans-serif; font-size:0.83rem; color:var(--blue-dark); outline:none; transition:border-color 0.15s; }
+    .bill-map-field input:focus { border-color:var(--blue-main); }
+
+    /* Map link in bill view */
+    .bill-map-link { display:inline-flex; align-items:center; gap:6px; color: var(--blue-main); font-size:0.83rem; font-weight:600; text-decoration:none; }
+    .bill-map-link:hover { text-decoration:underline; }
+
+    @media (min-width: 601px) {
+      .bill-float-contacts { display: none !important; }
+    }
   </style>
 </head>
 <body>
@@ -363,6 +611,9 @@
       <div class="brand">Chuyen<span>File</span></div>
     </a>
     <div class="tagline"><i class="fa-solid fa-shield-halved"></i>&nbsp; Xử lý 100% trên trình duyệt – Không upload server</div>
+    <div class="header-auth" id="header-auth">
+      <!-- Filled by JS -->
+    </div>
   </header>
 
   <div class="body-container">
@@ -380,8 +631,22 @@
       <div class="nav-item" id="nav-word" onclick="showPage('word2pdf')">
         <i class="fa-solid fa-file-word"></i><span>Word → PDF</span>
       </div>
-      <div class="nav-item ai-nav" id="nav-aivideo" onclick="showPage('aivideo')">
+      <div class="nav-item ai-nav" id="nav-aivideo" onclick="showComingSoon()">
         <i class="fa-solid fa-wand-magic-sparkles"></i><span>AI Ảnh & Video</span>
+      </div>
+      <div class="nav-item" id="nav-bill" onclick="showPage('bill')">
+        <i class="fa-solid fa-file-invoice"></i><span>Tạo Bill</span>
+      </div>
+      <div class="nav-divider"></div>
+      <div class="nav-label">Tài khoản</div>
+      <div class="nav-item" id="nav-login" onclick="showPage('login')" style="display:none">
+        <i class="fa-solid fa-right-to-bracket"></i><span>Đăng nhập</span>
+      </div>
+      <div class="nav-item" id="nav-register" onclick="showPage('register')" style="display:none">
+        <i class="fa-solid fa-user-plus"></i><span>Đăng ký</span>
+      </div>
+      <div class="nav-item" id="nav-profile" onclick="showPage('profile')" style="display:none">
+        <i class="fa-solid fa-user"></i><span>Hồ sơ</span>
       </div>
       <div class="nav-divider"></div>
       <div class="nav-label">Thông tin</div>
@@ -412,11 +677,17 @@
             <p>Chuyển tệp .docx thành PDF giữ nguyên nội dung, heading, bảng biểu và định dạng văn bản.</p>
             <div class="fc-arrow">Dùng ngay <i class="fa-solid fa-arrow-right"></i></div>
           </div>
-          <div class="feature-card ai-card" onclick="showPage('aivideo')">
+          <div class="feature-card ai-card" onclick="showComingSoon()">
             <div class="ai-badge"><i class="fa-solid fa-sparkles"></i> AI Powered</div>
             <div class="fc-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
             <h3>AI Ảnh & Video</h3>
             <p>Nhập mô tả, AI tự động sinh chuỗi khung hình hoạt hình liên tiếp và xuất video. Cần API key Anthropic.</p>
+            <div class="fc-arrow">Dùng ngay <i class="fa-solid fa-arrow-right"></i></div>
+          </div>
+          <div class="feature-card" onclick="showPage('bill')" style="border-color:#bbdefb;">
+            <div class="fc-icon"><i class="fa-solid fa-file-invoice" style="color:var(--blue-main)"></i></div>
+            <h3>Tạo Bill</h3>
+            <p>Tạo bill chuyên nghiệp theo ngành nghề. Tự chọn trường dữ liệu, đính kèm ảnh cọc và lấy link chia sẻ.</p>
             <div class="fc-arrow">Dùng ngay <i class="fa-solid fa-arrow-right"></i></div>
           </div>
         </div>
@@ -674,8 +945,265 @@
         </div>
       </div>
 
-      <!-- GUIDE PAGE -->
-      <div class="page" id="page-guide">
+      <!-- GUIDE PAGE (placeholder - actual content is page-guide-real) -->
+      <div class="page" id="page-guide"></div>
+
+      <!-- ==================== LOGIN PAGE ==================== -->
+      <div class="page" id="page-login">
+        <div class="auth-page-wrap">
+          <div>
+            <button class="auth-back" onclick="showPage('home')"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</button>
+            <div class="auth-card">
+              <a class="auth-logo" href="#" onclick="showPage('home')">
+                <div class="logo-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="brand">Chuyen<span>File</span></div>
+              </a>
+              <div class="auth-title">Đăng nhập</div>
+              <div class="auth-sub">Chào mừng bạn trở lại! Đăng nhập để quản lý bill.</div>
+              <div class="auth-alert" id="login-alert"></div>
+              <div class="auth-field">
+                <label><i class="fa-solid fa-user"></i> Tên đăng nhập</label>
+                <input type="text" id="login-username" placeholder="Nhập tên đăng nhập..." autocomplete="username" />
+              </div>
+              <div class="auth-field">
+                <label><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                <input type="password" id="login-password" placeholder="Nhập mật khẩu..." autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()" />
+              </div>
+              <button class="btn-auth-submit" onclick="doLogin()"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button>
+              <div class="auth-divider"><span>chưa có tài khoản?</span></div>
+              <div class="auth-switch">
+                <a onclick="showPage('register')">Đăng ký ngay miễn phí →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== REGISTER PAGE ==================== -->
+      <div class="page" id="page-register">
+        <div class="auth-page-wrap">
+          <div>
+            <button class="auth-back" onclick="showPage('home')"><i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ</button>
+            <div class="auth-card">
+              <a class="auth-logo" href="#" onclick="showPage('home')">
+                <div class="logo-icon"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="brand">Chuyen<span>File</span></div>
+              </a>
+              <div class="auth-title">Tạo tài khoản</div>
+              <div class="auth-sub">Đăng ký miễn phí để lưu và chia sẻ bill của bạn.</div>
+              <div class="auth-alert" id="register-alert"></div>
+              <div class="auth-field">
+                <label><i class="fa-solid fa-user"></i> Tên hiển thị</label>
+                <input type="text" id="register-name" placeholder="Tên của bạn..." />
+              </div>
+              <div class="auth-field">
+                <label><i class="fa-solid fa-at"></i> Tên đăng nhập</label>
+                <input type="text" id="register-username" placeholder="Chỉ dùng chữ cái, số, gạch dưới..." />
+              </div>
+              <div class="auth-field">
+                <label><i class="fa-solid fa-lock"></i> Mật khẩu</label>
+                <input type="password" id="register-password" placeholder="Tối thiểu 6 ký tự..." />
+              </div>
+              <div class="auth-field">
+                <label><i class="fa-solid fa-lock"></i> Nhập lại mật khẩu</label>
+                <input type="password" id="register-password2" placeholder="Nhập lại mật khẩu..." onkeydown="if(event.key==='Enter')doRegister()" />
+              </div>
+              <button class="btn-auth-submit" onclick="doRegister()"><i class="fa-solid fa-user-plus"></i> Tạo tài khoản</button>
+              <div class="auth-switch">
+                Đã có tài khoản? <a onclick="showPage('login')">Đăng nhập</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== BILL PAGE ==================== -->
+      <div class="page" id="page-bill">
+        <div class="page-title"><i class="fa-solid fa-file-invoice" style="color:var(--blue-main)"></i> Tạo Bill</div>
+        <div class="page-subtitle">Chọn ngành nghề, điền thông tin và tạo bill chuyên nghiệp trong vài giây.</div>
+
+        <!-- Step 1: Choose industry -->
+        <div id="bill-step-industry">
+          <div style="font-size:0.88rem;font-weight:700;color:var(--blue-dark);margin-bottom:16px;"><i class="fa-solid fa-1" style="background:var(--blue-main);color:white;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;margin-right:8px;"></i> Chọn ngành nghề của bạn</div>
+          <div class="bill-industry-grid">
+            <div class="industry-btn" onclick="selectIndustry('travel','Du lịch','🏖️')">
+              <div class="ind-icon">🏖️</div>
+              <div class="ind-name">Du lịch</div>
+            </div>
+            <div class="industry-btn" onclick="selectIndustry('restaurant','Nhà hàng / Quán ăn','🍜')">
+              <div class="ind-icon">🍜</div>
+              <div class="ind-name">Nhà hàng</div>
+            </div>
+            <div class="industry-btn" onclick="selectIndustry('hotel','Khách sạn / Lưu trú','🏨')">
+              <div class="ind-icon">🏨</div>
+              <div class="ind-name">Khách sạn</div>
+            </div>
+            <div class="industry-btn" onclick="selectIndustry('transport','Vận tải / Xe khách','🚌')">
+              <div class="ind-icon">🚌</div>
+              <div class="ind-name">Vận tải</div>
+            </div>
+            <div class="industry-btn" onclick="selectIndustry('service','Dịch vụ khác','🛠️')">
+              <div class="ind-icon">🛠️</div>
+              <div class="ind-name">Dịch vụ</div>
+            </div>
+            <div class="industry-btn" onclick="selectIndustry('custom','Tùy chỉnh','📋')">
+              <div class="ind-icon">📋</div>
+              <div class="ind-name">Tùy chỉnh</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Bill form -->
+        <div id="bill-step-form" style="display:none;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;">
+            <div style="font-size:0.88rem;font-weight:700;color:var(--blue-dark);"><i class="fa-solid fa-2" style="background:var(--blue-main);color:white;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.7rem;margin-right:8px;"></i> Điền thông tin bill</div>
+            <button style="background:none;border:1.5px solid var(--blue-border);border-radius:7px;padding:6px 14px;font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:700;color:var(--gray-text);cursor:pointer;" onclick="resetBillIndustry()"><i class="fa-solid fa-rotate-left"></i> Đổi ngành</button>
+          </div>
+
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--blue-pale);border:1.5px solid var(--blue-border);border-radius:99px;padding:6px 16px;font-size:0.78rem;font-weight:700;color:var(--blue-dark);margin-bottom:20px;" id="bill-industry-badge"></div>
+
+          <!-- Default fields -->
+          <div class="bill-form-section">
+            <h4><i class="fa-solid fa-user" style="color:var(--blue-main)"></i> Thông tin khách hàng</h4>
+            <div class="bill-field-row">
+              <div class="bill-field">
+                <label>Họ và tên *</label>
+                <input type="text" id="bill-name" placeholder="Nguyễn Văn A" />
+              </div>
+              <div class="bill-field">
+                <label>Số điện thoại *</label>
+                <input type="text" id="bill-phone" placeholder="0901 234 567" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Google Maps address -->
+          <div class="bill-form-section">
+            <h4><i class="fa-solid fa-map-location-dot" style="color:var(--blue-main)"></i> Địa chỉ / Google Maps (tùy chọn)</h4>
+            <div class="bill-map-field">
+              <label>Link Google Maps hoặc địa chỉ điểm đến</label>
+              <input type="text" id="bill-map-url" placeholder="https://maps.app.goo.gl/... hoặc địa chỉ cụ thể" />
+            </div>
+          </div>
+
+          <!-- Industry-specific fields -->
+          <div class="bill-form-section" id="bill-industry-fields">
+            <h4><i class="fa-solid fa-list-check" style="color:var(--blue-main)"></i> Thông tin dịch vụ</h4>
+            <div id="industry-fields-content"></div>
+          </div>
+
+          <!-- Custom fields added by user -->
+          <div class="bill-form-section" id="bill-custom-section">
+            <h4><i class="fa-solid fa-plus-circle" style="color:var(--blue-main)"></i> Trường tùy chỉnh</h4>
+            <div class="custom-fields-list" id="custom-fields-list"></div>
+            <button class="btn-add-field" onclick="addCustomField()"><i class="fa-solid fa-plus"></i> Thêm trường mới</button>
+          </div>
+
+          <!-- Deposit image (fixed) -->
+          <div class="bill-form-section">
+            <h4><i class="fa-solid fa-camera" style="color:var(--blue-main)"></i> Ảnh cọc tiền (tùy chọn)</h4>
+            <div class="bill-deposit-upload" id="deposit-upload-zone">
+              <input type="file" id="bill-deposit-img" accept="image/*" onchange="previewDeposit(this)" />
+              <div class="dep-icon"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+              <div class="dep-text">Nhấn hoặc kéo thả ảnh chứng từ cọc tiền vào đây</div>
+              <img id="deposit-preview" class="dep-preview" />
+            </div>
+          </div>
+
+          <div class="alert" id="bill-alert" style="margin-bottom:16px;"></div>
+          <button class="btn-submit-bill" onclick="submitBill()">
+            <i class="fa-solid fa-paper-plane"></i> Tạo Bill & Lấy Link
+          </button>
+        </div>
+
+        <!-- Step 3: Bill result -->
+        <div id="bill-step-result" style="display:none;max-width:580px;">
+          <div style="font-size:0.88rem;font-weight:700;color:#1b5e20;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-circle-check" style="color:#43a047;font-size:1.1rem;"></i> Bill đã được tạo thành công!
+          </div>
+          <div class="bill-link-box">
+            <div class="bl-label"><i class="fa-solid fa-link"></i> Link bill của bạn</div>
+            <div class="bill-link-row">
+              <input class="bill-link-input" id="bill-result-link" readonly />
+              <button class="btn-copy-link" onclick="copyBillLink()"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px;">
+            <button class="btn-submit-bill" style="padding:10px 22px;font-size:0.85rem;" onclick="viewCurrentBill()"><i class="fa-solid fa-eye"></i> Xem bill</button>
+            <button style="padding:10px 22px;border:1.5px solid var(--blue-border);border-radius:9px;background:white;font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:700;color:var(--gray-text);cursor:pointer;" onclick="newBill()"><i class="fa-solid fa-plus"></i> Tạo bill mới</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== PROFILE PAGE ==================== -->
+      <div class="page" id="page-profile">
+        <div class="page-title"><i class="fa-solid fa-user" style="color:var(--blue-main)"></i> Hồ sơ của tôi</div>
+        <div class="page-subtitle">Quản lý tài khoản và lịch sử bill của bạn.</div>
+        <div style="max-width:680px;display:flex;flex-direction:column;gap:20px;">
+          <!-- User info card -->
+          <div class="card" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+            <div style="width:60px;height:60px;border-radius:50%;background:var(--blue-main);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:white;font-weight:800;flex-shrink:0;" id="profile-avatar-big"></div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:1.1rem;font-weight:800;color:var(--blue-dark);" id="profile-name-display"></div>
+              <div style="font-size:0.8rem;color:var(--gray-text);font-weight:500;margin-top:2px;" id="profile-username-display"></div>
+            </div>
+            <button style="padding:8px 18px;background:#ffebee;border:1.5px solid #ef9a9a;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:700;color:#b71c1c;cursor:pointer;" onclick="doLogout()"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+          </div>
+          <!-- Bill history -->
+          <div class="card">
+            <div style="font-size:1rem;font-weight:700;color:var(--blue-dark);margin-bottom:16px;"><i class="fa-solid fa-clock-rotate-left" style="color:var(--blue-main);margin-right:8px;"></i>Lịch sử Bill</div>
+            <div id="profile-bill-list"><div style="font-size:0.85rem;color:var(--gray-text);font-weight:500;">Chưa có bill nào.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== BILL VIEW PAGE ==================== -->
+      <div class="page" id="page-billview">
+        <div class="bill-link-page-wrap" id="bill-link-page-wrap">
+          <!-- Marquee (shown in link mode) -->
+          <div class="bill-marquee-wrap" id="bill-marquee" style="display:none;">
+            <div class="bill-marquee-track">
+              <span class="bill-marquee-text"><span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách <span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách <span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách <span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách</span>
+              <span class="bill-marquee-text"><span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách <span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách <span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách <span class="mq-star">★</span> Retreat Phạm Đoàn La Ngâu cảm ơn quý khách</span>
+            </div>
+          </div>
+
+          <!-- Back/print buttons (hidden in link mode) -->
+          <div id="bill-nav-btns" style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;padding:0;">
+            <button style="display:flex;align-items:center;gap:7px;padding:8px 16px;border:1.5px solid var(--blue-border);border-radius:8px;background:white;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;color:var(--gray-text);cursor:pointer;" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Quay lại</button>
+            <button class="btn-print-bill" onclick="window.print()"><i class="fa-solid fa-print"></i> In bill</button>
+          </div>
+
+          <div class="bill-link-inner">
+            <div class="bill-view-wrap" id="bill-view-content"></div>
+          </div>
+        </div>
+
+        <!-- Floating contact buttons (mobile, link mode only) -->
+        <div class="bill-float-contacts">
+          <a class="bfc-btn bfc-tiktok" href="https://www.tiktok.com/@sui.la.ngu.phm.on" target="_blank" rel="noopener">
+            <div class="bfc-icon">
+              <svg class="tiktok-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.01-.07z"/></svg>
+            </div>
+            <span>TikTok</span>
+          </a>
+          <a class="bfc-btn bfc-zalo" href="https://zalo.me/0813393379" target="_blank" rel="noopener">
+            <div class="bfc-icon" style="font-size:0.85rem;font-weight:900;letter-spacing:-1px;">
+              Za
+            </div>
+            <span>Zalo</span>
+          </a>
+          <a class="bfc-btn bfc-gmap" href="https://share.google/uwcWMAmaxffOAcQE5" target="_blank" rel="noopener">
+            <div class="bfc-icon">
+              <i class="fa-solid fa-map-location-dot" style="font-size:1.1rem;"></i>
+            </div>
+            <span>Bản đồ</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- GUIDE PAGE (original content) -->
+      <div class="page" id="page-guide-real">
         <div class="page-title"><i class="fa-solid fa-circle-question" style="color:var(--blue-main)"></i> Hướng dẫn sử dụng</div>
         <div class="page-subtitle">Các bước thực hiện đơn giản, không cần đăng ký tài khoản.</div>
         <div class="card" style="max-width:680px">
@@ -725,9 +1253,20 @@
             </div>
           </div>
         </div>
-      </div>
+      </div><!-- end page-guide-real -->
 
     </main>
+  </div>
+
+  <!-- ==================== COMING SOON MODAL ==================== -->
+  <div class="modal-overlay" id="modal-coming-soon" onclick="if(event.target===this)closeComingSoon()">
+    <div class="modal-box">
+      <div class="cs-rocket">🚀</div>
+      <div class="cs-badge"><i class="fa-solid fa-sparkles"></i> Sắp ra mắt</div>
+      <h2>AI Ảnh & Video</h2>
+      <p>Tính năng này đang được phát triển và sẽ sớm ra mắt.<br/>Cùng nhau đợi nhé! Chúng tôi đang làm việc hết mình để mang đến trải nghiệm tốt nhất cho bạn. ✨</p>
+      <button class="btn-close-modal" onclick="closeComingSoon()"><i class="fa-solid fa-xmark"></i> Đóng</button>
+    </div>
   </div>
 
   <footer>
@@ -751,16 +1290,24 @@
 <script>
 // ===================== NAVIGATION =====================
 function showPage(id) {
+  // Map 'guide' → actual page id
+  const realId = (id === 'guide') ? 'guide-real' : id;
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  const navEl = document.getElementById('nav-' + id);
+  const pageEl = document.getElementById('page-' + realId);
+  if (pageEl) pageEl.classList.add('active');
+  // Nav highlight: 'guide-real' → highlight nav-guide
+  const navKey = (id === 'guide') ? 'guide' : id;
+  const navEl = document.getElementById('nav-' + navKey);
   if (navEl) navEl.classList.add('active');
   // Show CORS warning on AI page if running local
   if (id === 'aivideo') {
     const isLocal = location.hostname === '127.0.0.1' || location.hostname === 'localhost' || location.protocol === 'file:';
-    document.getElementById('cors-warning').style.display = isLocal ? 'block' : 'none';
+    const corsEl = document.getElementById('cors-warning');
+    if (corsEl) corsEl.style.display = isLocal ? 'block' : 'none';
   }
+  // Render profile page
+  if (id === 'profile') renderProfile();
 }
 
 ['dz-img', 'dz-word'].forEach(id => {
@@ -791,18 +1338,7 @@ function saveApiKey() {
   }
 }
 
-// Pre-fill if already saved
-window.addEventListener('DOMContentLoaded', () => {
-  if (claudeApiKey) {
-    document.getElementById('claude-api-key').value = claudeApiKey;
-    document.getElementById('key-status').textContent = '✅ API key đã lưu (phiên này)';
-    document.getElementById('key-status').className = 'key-status saved';
-    document.getElementById('engine-label').innerHTML = '<i class="fa-solid fa-robot" style="color:var(--ai-purple-light)"></i> Claude + Pollinations.ai';
-  } else {
-    document.getElementById('key-status').textContent = 'ℹ️ Chưa có key — dùng chế độ Fallback tự động';
-    document.getElementById('key-status').className = 'key-status none';
-  }
-});
+// Pre-fill if already saved - handled in INIT below
 
 // ===================== IMAGE → PDF =====================
 let imgFiles = [];
@@ -1397,6 +1933,501 @@ return text
   .trim();
 
 }
+
+// ===================== COMING SOON MODAL =====================
+function showComingSoon() {
+  document.getElementById('modal-coming-soon').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeComingSoon() {
+  document.getElementById('modal-coming-soon').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// ===================== AUTH SYSTEM =====================
+function getUsers() {
+  try { return JSON.parse(localStorage.getItem('cf_users') || '{}'); } catch { return {}; }
+}
+function saveUsers(u) { localStorage.setItem('cf_users', JSON.stringify(u)); }
+function getCurrentUser() { return localStorage.getItem('cf_current_user') || null; }
+function setCurrentUser(u) {
+  if (u) localStorage.setItem('cf_current_user', u);
+  else localStorage.removeItem('cf_current_user');
+}
+
+function updateAuthUI() {
+  const user = getCurrentUser();
+  const users = getUsers();
+  const authDiv = document.getElementById('header-auth');
+  const navLogin = document.getElementById('nav-login');
+  const navRegister = document.getElementById('nav-register');
+  const navProfile = document.getElementById('nav-profile');
+  if (user && users[user]) {
+    const info = users[user];
+    authDiv.innerHTML = `
+      <div class="user-chip">
+        <div class="avatar">${info.name.charAt(0).toUpperCase()}</div>
+        <span>${info.name}</span>
+      </div>
+      <button class="btn-logout" onclick="doLogout()" title="Đăng xuất"><i class="fa-solid fa-right-from-bracket"></i></button>`;
+    navLogin.style.display = 'none';
+    navRegister.style.display = 'none';
+    navProfile.style.display = 'flex';
+  } else {
+    authDiv.innerHTML = `
+      <button class="btn-header-auth btn-login-h" onclick="showPage('login')"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button>
+      <button class="btn-header-auth btn-register-h" onclick="showPage('register')"><i class="fa-solid fa-user-plus"></i> Đăng ký</button>`;
+    navLogin.style.display = 'flex';
+    navRegister.style.display = 'flex';
+    navProfile.style.display = 'none';
+  }
+}
+
+function doLogin() {
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+  const alertEl = document.getElementById('login-alert');
+  if (!username || !password) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Vui lòng nhập đầy đủ thông tin.'; return;
+  }
+  const users = getUsers();
+  if (!users[username] || users[username].password !== btoa(password)) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Tên đăng nhập hoặc mật khẩu không đúng.'; return;
+  }
+  setCurrentUser(username);
+  updateAuthUI();
+  alertEl.className = 'auth-alert show success'; alertEl.textContent = '✅ Đăng nhập thành công!';
+  // Check if there's a pending bill redirect
+  const pendingBill = sessionStorage.getItem('pending_bill_data');
+  setTimeout(() => {
+    if (pendingBill) {
+      sessionStorage.removeItem('pending_bill_data');
+      showPage('bill');
+      setTimeout(() => restorePendingBill(JSON.parse(pendingBill)), 200);
+    } else {
+      showPage('profile');
+    }
+  }, 800);
+}
+
+function doRegister() {
+  const name = document.getElementById('register-name').value.trim();
+  const username = document.getElementById('register-username').value.trim().toLowerCase();
+  const password = document.getElementById('register-password').value;
+  const password2 = document.getElementById('register-password2').value;
+  const alertEl = document.getElementById('register-alert');
+  if (!name || !username || !password) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Vui lòng điền đầy đủ thông tin.'; return;
+  }
+  if (!/^[a-z0-9_]{3,20}$/.test(username)) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Tên đăng nhập chỉ dùng chữ thường, số, gạch dưới (3-20 ký tự).'; return;
+  }
+  if (password.length < 6) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Mật khẩu tối thiểu 6 ký tự.'; return;
+  }
+  if (password !== password2) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Mật khẩu nhập lại không khớp.'; return;
+  }
+  const users = getUsers();
+  if (users[username]) {
+    alertEl.className = 'auth-alert show error'; alertEl.textContent = 'Tên đăng nhập này đã tồn tại.'; return;
+  }
+  users[username] = { name, password: btoa(password), createdAt: new Date().toISOString() };
+  saveUsers(users);
+  setCurrentUser(username);
+  updateAuthUI();
+  alertEl.className = 'auth-alert show success'; alertEl.textContent = '✅ Tạo tài khoản thành công!';
+  const pendingBill = sessionStorage.getItem('pending_bill_data');
+  setTimeout(() => {
+    if (pendingBill) {
+      sessionStorage.removeItem('pending_bill_data');
+      showPage('bill');
+      setTimeout(() => restorePendingBill(JSON.parse(pendingBill)), 200);
+    } else {
+      showPage('profile');
+    }
+  }, 800);
+}
+
+function doLogout() {
+  setCurrentUser(null);
+  updateAuthUI();
+  showPage('home');
+}
+
+// ===================== PROFILE PAGE =====================
+function renderProfile() {
+  const user = getCurrentUser();
+  const users = getUsers();
+  if (!user || !users[user]) return;
+  const info = users[user];
+  document.getElementById('profile-avatar-big').textContent = info.name.charAt(0).toUpperCase();
+  document.getElementById('profile-name-display').textContent = info.name;
+  document.getElementById('profile-username-display').textContent = '@' + user;
+  // Render bill history
+  const bills = getBills();
+  const userBills = bills.filter(b => b.owner === user).reverse();
+  const listEl = document.getElementById('profile-bill-list');
+  if (!userBills.length) {
+    listEl.innerHTML = '<div style="font-size:0.85rem;color:var(--gray-text);font-weight:500;">Chưa có bill nào.</div>'; return;
+  }
+  listEl.innerHTML = userBills.map(b => `
+    <div class="bill-history-item" onclick="viewBillById('${b.id}')">
+      <div class="bhi-info">
+        <div class="bhi-name">${b.fields.find(f=>f.key==='name')?.value || 'Bill'} — ${b.industryLabel}</div>
+        <div class="bhi-meta">${new Date(b.createdAt).toLocaleString('vi-VN')} · ID: ${b.id.slice(-8)}</div>
+      </div>
+      <i class="fa-solid fa-chevron-right bhi-arrow"></i>
+    </div>`).join('');
+}
+
+// ===================== BILL SYSTEM =====================
+let currentIndustry = null;
+let customFieldsData = [];
+let depositDataUrl = null;
+let lastBillId = null;
+
+const industryPresets = {
+  travel: [
+    { key:'pax', label:'Số lượng người đi', type:'number', placeholder:'2', span:1 },
+    { key:'checkin', label:'Ngày đến', type:'date', span:1 },
+    { key:'checkout', label:'Ngày đi', type:'date', span:1 },
+    { key:'destination', label:'Điểm đến / Tour', type:'text', placeholder:'Đà Lạt 3N2Đ...', span:2 },
+    { key:'totalPrice', label:'Tổng tiền (VNĐ)', type:'text', placeholder:'5,000,000', span:1 },
+    { key:'deposit', label:'Tiền cọc (VNĐ)', type:'text', placeholder:'1,000,000', span:1 },
+  ],
+  restaurant: [
+    { key:'tableNo', label:'Bàn số', type:'text', placeholder:'01', span:1 },
+    { key:'guests', label:'Số khách', type:'number', placeholder:'4', span:1 },
+    { key:'orderDate', label:'Ngày dùng bữa', type:'date', span:1 },
+    { key:'orderTime', label:'Giờ phục vụ', type:'time', span:1 },
+    { key:'menu', label:'Thực đơn / Ghi chú', type:'textarea', placeholder:'...', span:2 },
+    { key:'totalPrice', label:'Tổng tiền (VNĐ)', type:'text', placeholder:'500,000', span:1 },
+  ],
+  hotel: [
+    { key:'roomType', label:'Loại phòng', type:'text', placeholder:'Deluxe Double', span:1 },
+    { key:'checkin', label:'Ngày nhận phòng', type:'date', span:1 },
+    { key:'checkout', label:'Ngày trả phòng', type:'date', span:1 },
+    { key:'guests', label:'Số khách', type:'number', placeholder:'2', span:1 },
+    { key:'totalPrice', label:'Tổng tiền (VNĐ)', type:'text', placeholder:'2,000,000', span:1 },
+    { key:'deposit', label:'Tiền cọc (VNĐ)', type:'text', placeholder:'500,000', span:1 },
+  ],
+  transport: [
+    { key:'route', label:'Tuyến đường', type:'text', placeholder:'Hà Nội - Đà Nẵng', span:2 },
+    { key:'departDate', label:'Ngày khởi hành', type:'date', span:1 },
+    { key:'seats', label:'Số ghế', type:'number', placeholder:'2', span:1 },
+    { key:'seatNo', label:'Số ghế cụ thể', type:'text', placeholder:'A1, A2', span:1 },
+    { key:'totalPrice', label:'Tổng tiền (VNĐ)', type:'text', placeholder:'400,000', span:1 },
+  ],
+  service: [
+    { key:'serviceType', label:'Loại dịch vụ', type:'text', placeholder:'Sửa điện lạnh, thiết kế web...', span:2 },
+    { key:'serviceDate', label:'Ngày thực hiện', type:'date', span:1 },
+    { key:'duration', label:'Thời gian', type:'text', placeholder:'3 giờ, 2 ngày...', span:1 },
+    { key:'totalPrice', label:'Tổng tiền (VNĐ)', type:'text', placeholder:'', span:1 },
+    { key:'deposit', label:'Tiền cọc (VNĐ)', type:'text', placeholder:'', span:1 },
+  ],
+  custom: []
+};
+
+function selectIndustry(key, label, icon) {
+  currentIndustry = { key, label, icon };
+  document.getElementById('bill-step-industry').style.display = 'none';
+  document.getElementById('bill-step-form').style.display = 'block';
+  document.getElementById('bill-step-result').style.display = 'none';
+  document.getElementById('bill-industry-badge').innerHTML = `${icon} ${label}`;
+  renderIndustryFields();
+  customFieldsData = [];
+  document.getElementById('custom-fields-list').innerHTML = '';
+  depositDataUrl = null;
+  document.getElementById('deposit-preview').style.display = 'none';
+  document.getElementById('bill-alert').className = 'alert';
+}
+
+function renderIndustryFields() {
+  const container = document.getElementById('industry-fields-content');
+  const presets = industryPresets[currentIndustry.key] || [];
+  if (!presets.length) {
+    container.innerHTML = '<div style="font-size:0.83rem;color:var(--gray-text);font-weight:500;">Không có trường mặc định. Hãy thêm trường tùy chỉnh bên dưới.</div>';
+    return;
+  }
+  let html = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="bill-field-row">';
+  presets.forEach(f => {
+    const colStyle = f.span === 2 ? 'grid-column:span 2;' : '';
+    if (f.type === 'textarea') {
+      html += `<div class="bill-field" style="${colStyle}"><label>${f.label}</label><textarea id="bf-${f.key}" placeholder="${f.placeholder||''}" rows="2" style="resize:vertical;border:1.5px solid var(--blue-border);border-radius:8px;padding:9px 12px;font-family:'Montserrat',sans-serif;font-size:0.84rem;color:var(--blue-dark);outline:none;width:100%;transition:border-color 0.15s;"></textarea></div>`;
+    } else {
+      html += `<div class="bill-field" style="${colStyle}"><label>${f.label}</label><input type="${f.type}" id="bf-${f.key}" placeholder="${f.placeholder||''}" /></div>`;
+    }
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function resetBillIndustry() {
+  currentIndustry = null;
+  document.getElementById('bill-step-industry').style.display = 'block';
+  document.getElementById('bill-step-form').style.display = 'none';
+  document.getElementById('bill-step-result').style.display = 'none';
+}
+
+function addCustomField() {
+  const id = 'cf_' + Date.now();
+  customFieldsData.push({ id });
+  const list = document.getElementById('custom-fields-list');
+  const row = document.createElement('div');
+  row.className = 'custom-field-item';
+  row.id = 'row_' + id;
+  row.innerHTML = `
+    <input type="text" id="cl_${id}" placeholder="Tên trường (vd: Ghi chú đặc biệt)" style="max-width:180px;border:1.5px solid var(--blue-border);border-radius:8px;padding:8px 12px;font-family:'Montserrat',sans-serif;font-size:0.83rem;" />
+    <input type="text" id="cv_${id}" placeholder="Giá trị..." style="flex:1;border:1.5px solid var(--blue-border);border-radius:8px;padding:8px 12px;font-family:'Montserrat',sans-serif;font-size:0.83rem;" />
+    <button class="btn-remove-field" onclick="removeCustomField('${id}')"><i class="fa-solid fa-xmark"></i></button>`;
+  list.appendChild(row);
+}
+
+function removeCustomField(id) {
+  customFieldsData = customFieldsData.filter(f => f.id !== id);
+  const row = document.getElementById('row_' + id);
+  if (row) row.remove();
+}
+
+function previewDeposit(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    depositDataUrl = e.target.result;
+    const img = document.getElementById('deposit-preview');
+    img.src = depositDataUrl;
+    img.style.display = 'block';
+    const dzIcon = document.getElementById('deposit-upload-zone').querySelector('.dep-icon');
+    const dzText = document.getElementById('deposit-upload-zone').querySelector('.dep-text');
+    if (dzIcon) dzIcon.style.display = 'none';
+    if (dzText) dzText.textContent = '✅ Đã chọn ảnh';
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+
+function getBills() {
+  try { return JSON.parse(localStorage.getItem('cf_bills') || '[]'); } catch { return []; }
+}
+function saveBills(b) { localStorage.setItem('cf_bills', JSON.stringify(b)); }
+
+function collectBillData() {
+  const name = document.getElementById('bill-name').value.trim();
+  const phone = document.getElementById('bill-phone').value.trim();
+  if (!name || !phone) return null;
+  const fields = [
+    { key:'name', label:'Họ và tên', value: name },
+    { key:'phone', label:'Số điện thoại', value: phone },
+  ];
+  const presets = industryPresets[currentIndustry.key] || [];
+  presets.forEach(f => {
+    const el = document.getElementById('bf-' + f.key);
+    if (el && el.value.trim()) fields.push({ key: f.key, label: f.label, value: el.value.trim() });
+  });
+  customFieldsData.forEach(cf => {
+    const labelEl = document.getElementById('cl_' + cf.id);
+    const valEl = document.getElementById('cv_' + cf.id);
+    if (labelEl && valEl && labelEl.value.trim() && valEl.value.trim()) {
+      fields.push({ key: cf.id, label: labelEl.value.trim(), value: valEl.value.trim() });
+    }
+  });
+  return fields;
+}
+
+function submitBill() {
+  const name = document.getElementById('bill-name').value.trim();
+  const phone = document.getElementById('bill-phone').value.trim();
+  const alertEl = document.getElementById('bill-alert');
+  if (!name || !phone) {
+    alertEl.className = 'alert show error';
+    alertEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Vui lòng nhập Họ tên và Số điện thoại.';
+    return;
+  }
+  // Check if logged in
+  const user = getCurrentUser();
+  if (!user) {
+    // Save form data to session, redirect to login/register
+    const billDataSnapshot = {
+      industry: currentIndustry, name, phone,
+      presetValues: {},
+      customFields: customFieldsData.map(cf => ({
+        id: cf.id,
+        label: document.getElementById('cl_' + cf.id)?.value || '',
+        value: document.getElementById('cv_' + cf.id)?.value || ''
+      })),
+      deposit: depositDataUrl
+    };
+    (industryPresets[currentIndustry.key] || []).forEach(f => {
+      const el = document.getElementById('bf-' + f.key);
+      if (el) billDataSnapshot.presetValues[f.key] = el.value;
+    });
+    sessionStorage.setItem('pending_bill_data', JSON.stringify(billDataSnapshot));
+    alertEl.className = 'alert show error';
+    alertEl.innerHTML = '<i class="fa-solid fa-user"></i> Bạn cần đăng nhập để tạo link bill. Đang chuyển đến trang đăng nhập...';
+    setTimeout(() => showPage('login'), 1500);
+    return;
+  }
+  // Create bill
+  const fields = collectBillData();
+  const mapUrl = (document.getElementById('bill-map-url')?.value || '').trim();
+  const billId = 'bill_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+  // Generate short code (6 chars)
+  const shortCode = Math.random().toString(36).slice(2,8);
+  // Save short code mapping
+  const scMap = JSON.parse(localStorage.getItem('cf_shortcodes') || '{}');
+  scMap[shortCode] = billId;
+  localStorage.setItem('cf_shortcodes', JSON.stringify(scMap));
+
+  const bill = {
+    id: billId, owner: user, industry: currentIndustry.key,
+    industryLabel: currentIndustry.label, industryIcon: currentIndustry.icon,
+    fields, depositImg: depositDataUrl, mapUrl, createdAt: new Date().toISOString()
+  };
+  const bills = getBills();
+  bills.push(bill);
+  saveBills(bills);
+  lastBillId = billId;
+  // Show result with short link
+  const link = location.href.split('#')[0] + '#b/' + shortCode;
+  document.getElementById('bill-result-link').value = link;
+  document.getElementById('bill-step-form').style.display = 'none';
+  document.getElementById('bill-step-result').style.display = 'block';
+  alertEl.className = 'alert';
+}
+
+function restorePendingBill(data) {
+  if (!data || !data.industry) return;
+  selectIndustry(data.industry.key, data.industry.label, data.industry.icon);
+  document.getElementById('bill-name').value = data.name || '';
+  document.getElementById('bill-phone').value = data.phone || '';
+  setTimeout(() => {
+    Object.entries(data.presetValues || {}).forEach(([k,v]) => {
+      const el = document.getElementById('bf-' + k);
+      if (el) el.value = v;
+    });
+    (data.customFields || []).forEach(cf => {
+      addCustomField();
+      const lastId = customFieldsData[customFieldsData.length-1].id;
+      const lEl = document.getElementById('cl_' + lastId);
+      const vEl = document.getElementById('cv_' + lastId);
+      if (lEl) lEl.value = cf.label;
+      if (vEl) vEl.value = cf.value;
+    });
+    if (data.deposit) {
+      depositDataUrl = data.deposit;
+      const img = document.getElementById('deposit-preview');
+      img.src = data.deposit; img.style.display = 'block';
+    }
+  }, 100);
+}
+
+function copyBillLink() {
+  const input = document.getElementById('bill-result-link');
+  navigator.clipboard.writeText(input.value).then(() => {
+    const btn = document.querySelector('.btn-copy-link');
+    btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã sao chép';
+    setTimeout(() => btn.innerHTML = '<i class="fa-solid fa-copy"></i> Sao chép', 2000);
+  });
+}
+
+function viewCurrentBill() { if (lastBillId) viewBillById(lastBillId); }
+
+function viewBillById(id) {
+  const bills = getBills();
+  const bill = bills.find(b => b.id === id);
+  if (!bill) { alert('Không tìm thấy bill này.'); return; }
+  renderBillView(bill);
+  showPage('billview');
+}
+
+function renderBillView(bill) {
+  const dateStr = new Date(bill.createdAt).toLocaleString('vi-VN');
+  const rows = bill.fields.map(f => `
+    <div class="bill-row">
+      <span class="brow-label">${f.label}</span>
+      <span class="brow-val">${f.value}</span>
+    </div>`).join('');
+  const mapHtml = bill.mapUrl ? `
+    <div class="bill-row">
+      <span class="brow-label"><i class="fa-solid fa-map-location-dot" style="margin-right:4px;color:var(--blue-main)"></i>Bản đồ</span>
+      <span class="brow-val"><a class="bill-map-link" href="${bill.mapUrl.startsWith('http') ? bill.mapUrl : 'https://maps.google.com/?q='+encodeURIComponent(bill.mapUrl)}" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Xem trên bản đồ</a></span>
+    </div>` : '';
+  const depositHtml = bill.depositImg ? `<div style="margin-top:14px;"><div style="font-size:0.72rem;font-weight:700;color:var(--gray-text);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Ảnh cọc tiền</div><img src="${bill.depositImg}" class="bill-deposit-img" style="display:block;" /></div>` : '';
+  document.getElementById('bill-view-content').innerHTML = `
+    <div class="bill-view-header">
+      <div class="bv-brand">ChuyenFile · ${bill.industryIcon} ${bill.industryLabel}</div>
+      <div class="bv-id">Mã bill: ${bill.id.slice(-12)}</div>
+      <div class="bv-date"><i class="fa-solid fa-calendar-days"></i> ${dateStr}</div>
+    </div>
+    <div class="bill-view-body">
+      ${rows}
+      ${mapHtml}
+      ${depositHtml}
+    </div>
+    <div class="bill-view-footer">Được tạo bởi <strong>ChuyenFile</strong> · Dữ liệu lưu trên thiết bị của bạn</div>`;
+}
+
+function newBill() {
+  document.getElementById('bill-step-result').style.display = 'none';
+  document.getElementById('bill-step-form').style.display = 'none';
+  document.getElementById('bill-step-industry').style.display = 'block';
+  document.getElementById('bill-name').value = '';
+  document.getElementById('bill-phone').value = '';
+  const mapEl = document.getElementById('bill-map-url');
+  if (mapEl) mapEl.value = '';
+  depositDataUrl = null; lastBillId = null; customFieldsData = [];
+}
+
+// Check URL hash for bill view on load
+function checkBillHash() {
+  const hash = location.hash;
+  let bill = null;
+
+  if (hash.startsWith('#b/')) {
+    // Short code lookup
+    const shortCode = hash.slice(3);
+    const scMap = JSON.parse(localStorage.getItem('cf_shortcodes') || '{}');
+    const fullId = scMap[shortCode];
+    if (fullId) {
+      const bills = getBills();
+      bill = bills.find(b => b.id === fullId);
+    }
+  } else if (hash.startsWith('#bill/')) {
+    // Legacy full ID (backwards compat)
+    const id = hash.slice(6);
+    const bills = getBills();
+    bill = bills.find(b => b.id === id);
+  }
+
+  if (bill) {
+    renderBillView(bill);
+    showPage('billview');
+    // Activate link mode: hide nav/header, show marquee, hide back buttons
+    document.body.classList.add('bill-link-mode');
+    document.getElementById('bill-marquee').style.display = 'block';
+    document.getElementById('bill-nav-btns').style.display = 'none';
+    // Adjust bill-link-inner padding for mobile
+    document.getElementById('bill-link-page-wrap').style.padding = '0 0 100px';
+    return true;
+  }
+  return false;
+}
+
+// ===================== INIT =====================
+window.addEventListener('DOMContentLoaded', () => {
+  // existing API key pre-fill
+  if (claudeApiKey) {
+    document.getElementById('claude-api-key').value = claudeApiKey;
+    document.getElementById('key-status').textContent = '✅ API key đã lưu (phiên này)';
+    document.getElementById('key-status').className = 'key-status saved';
+    document.getElementById('engine-label').innerHTML = '<i class="fa-solid fa-robot" style="color:var(--ai-purple-light)"></i> Claude + Pollinations.ai';
+  } else {
+    document.getElementById('key-status').textContent = 'ℹ️ Chưa có key — dùng chế độ Fallback tự động';
+    document.getElementById('key-status').className = 'key-status none';
+  }
+  updateAuthUI();
+  checkBillHash();
+});
 </script>
 </body>
 </html>
